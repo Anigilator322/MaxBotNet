@@ -213,7 +213,7 @@ public class UpdateTests
     public void Deserialize_BotStarted_ShouldDeserializeCorrectly()
     {
         // Arrange
-        var json = """{"update_id":7,"update_type":"bot_started","timestamp":1609459200000,"chat_id":123,"user":{"user_id":456,"username":"testuser","is_bot":false},"user_locale":"ru"}""";
+        var json = """{"update_id":7,"update_type":"bot_started","timestamp":1609459200000,"chat_id":123,"user":{"user_id":456,"username":"testuser","is_bot":false},"user_locale":"ru","payload":"from-deeplink"}""";
 
         // Act
         var result = MaxJsonSerializer.Deserialize<Update>(json);
@@ -226,12 +226,14 @@ public class UpdateTests
         result.User.Should().NotBeNull();
         result.User!.Id.Should().Be(456);
         result.UserLocale.Should().Be("ru");
+        result.Payload.Should().Be("from-deeplink");
 
         // Test typed wrapper
         result.BotStartedUpdate.Should().NotBeNull();
         result.BotStartedUpdate!.ChatId.Should().Be(123);
         result.BotStartedUpdate.User!.Id.Should().Be(456);
         result.BotStartedUpdate.UserLocale.Should().Be("ru");
+        result.BotStartedUpdate.Payload.Should().Be("from-deeplink");
     }
 
     #endregion
@@ -559,6 +561,29 @@ public class UpdateTests
         json.Should().Contain("\"chat\"");
         json.Should().Contain("\"user\"");
         json.Should().Contain("\"inviter_id\":789");
+    }
+
+    [Fact]
+    public void Serialize_BotStarted_ShouldSerializePayload()
+    {
+        // Arrange
+        var update = new Update
+        {
+            UpdateId = 7,
+            UpdateTypeRaw = "bot_started",
+            Timestamp = 1609459200000,
+            ChatId = 123,
+            User = new User { Id = 456 },
+            UserLocale = "ru",
+            Payload = "from-deeplink"
+        };
+
+        // Act
+        var json = MaxJsonSerializer.Serialize(update);
+
+        // Assert
+        json.Should().Contain("\"update_type\":\"bot_started\"");
+        json.Should().Contain("\"payload\":\"from-deeplink\"");
     }
 
     #endregion

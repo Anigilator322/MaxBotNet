@@ -153,6 +153,11 @@ public class BotStartedUpdate
     /// Gets or sets the user locale.
     /// </summary>
     public string? UserLocale { get; set; }
+
+    /// <summary>
+    /// Gets or sets the payload passed when the bot was started.
+    /// </summary>
+    public string? Payload { get; set; }
 }
 
 /// <summary>
