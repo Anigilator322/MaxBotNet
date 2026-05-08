@@ -155,7 +155,7 @@ public class BotStartedUpdate
     public string? UserLocale { get; set; }
 
     /// <summary>
-    /// Gets or sets the payload passed when the bot was started.
+    /// Gets or sets the deep-link payload.
     /// </summary>
     public string? Payload { get; set; }
 }

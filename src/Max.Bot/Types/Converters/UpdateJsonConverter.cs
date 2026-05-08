@@ -90,12 +90,10 @@ public class UpdateJsonConverter : JsonConverter<Update>
             update.IsMuted = isMutedElement.GetBoolean();
         }
 
-        // Read payload (bot_started)
+
         if (root.TryGetProperty("payload", out var payloadElement))
         {
-            update.Payload = payloadElement.ValueKind == JsonValueKind.String
-                ? payloadElement.GetString()
-                : payloadElement.GetRawText();
+            update.Payload = payloadElement.ValueKind == JsonValueKind.Null ? null : payloadElement.GetString();
         }
 
         return update;
@@ -169,7 +167,6 @@ public class UpdateJsonConverter : JsonConverter<Update>
             writer.WriteBoolean("is_muted", value.IsMuted.Value);
         }
 
-        // Write payload
         if (value.Payload != null)
         {
             writer.WriteString("payload", value.Payload);

@@ -103,8 +103,7 @@ public class Update
     public bool? IsMuted { get; set; }
 
     /// <summary>
-    /// Gets or sets the payload provided when starting the bot.
-    /// Present in: bot_started.
+    /// Gets or sets the bot start payload.
     /// </summary>
     [JsonIgnore]
     public string? Payload { get; set; }
